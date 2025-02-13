@@ -63,6 +63,8 @@ const
     resultado10 = false;
     expresion11 = '(3[+2]*5)+[4-2]';
     resultado11 = true;
+    expresion12 = '(3[+2)*5]+[4-2]';
+    resultado12 = false;
 
 
 { 1.2}
@@ -135,6 +137,7 @@ begin
     WriteLn('Ejemplo 9: ', expresion9, #9, balanceadaCorchetes(expresion9), ' = ', resultado9, #9, showOkWrong(balanceadaCorchetes(expresion9) = resultado9));
     WriteLn('Ejemplo 10: ', expresion10, #9, balanceadaCorchetes(expresion10), ' = ', resultado10, #9, showOkWrong(balanceadaCorchetes(expresion10) = resultado10));
     WriteLn('Ejemplo 11: ', expresion11, #9, balanceadaCorchetes(expresion11), ' = ', resultado11, #9, showOkWrong(balanceadaCorchetes(expresion11) = resultado11));
+    WriteLn('Ejemplo 12: ', expresion12, #9, balanceadaCorchetes(expresion12), ' = ', resultado12, #9, showOkWrong(balanceadaCorchetes(expresion12) = resultado12));
     readln;
 end.
 
