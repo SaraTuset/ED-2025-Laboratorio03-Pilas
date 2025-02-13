@@ -1,12 +1,56 @@
 unit uPilaChar;
 
-{ 1.1 
-    Genera una unidad pila cuyos nodos almacenen un único carácter.
-    Implementa las funciones básicas para la pila:
-        - Inicializar la pila.
-        - Verificar si la pila está vacía.
-        - Apilar un carácter.
-        - Desapilar un carácter.
-        - Obtener el carácter en la cima de la pila sin desapilarlo.
-}
+interface
 
+type
+  TNodo = record
+    data: Char;
+    ant: ^TNodo
+  end;
+
+  TPila = ^TNodo;
+
+procedure inicializar(var pila: TPila);
+function esVacia(pila: TPila): Boolean;
+procedure apilar(var pila: TPila; c: Char);
+procedure desapilar(var pila: TPila);
+function cima(pila: TPila): Char;
+
+implementation
+
+procedure inicializar(var pila: TPila);
+begin
+  pila := nil;
+end;
+
+function esVacia(pila: TPila): Boolean;
+begin
+  esVacia := pila = nil;
+end;
+
+procedure apilar(var pila: TPila; c: Char);
+var
+  aux: TPila;
+begin
+  new(aux);
+  aux^.data:= c;
+  aux^.ant:= pila;
+  pila := aux;
+end;
+
+procedure desapilar(var pila: TPila);
+var
+  aux: TPila;
+begin
+  aux := pila;
+  pila:= pila^.ant;
+  dispose(aux);
+end;
+
+function cima(pila: TPila): Char;
+begin
+  if not esVacia(pila) then
+     cima := pila^.data;
+end;
+
+end.

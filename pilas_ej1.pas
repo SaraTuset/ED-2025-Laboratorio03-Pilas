@@ -2,7 +2,7 @@ program pilas_ej1;
 
 uses
     sysutils, 
-    uPilaChar; { 1.1 Genera una unidad pila cuyos nodos almacenen un único carácter.}
+    uPilaChar;
 
 
 { 1.2
@@ -64,19 +64,52 @@ const
     expresion11 = '(3[+2]*5)+[4-2]';
     resultado11 = true;
 
+
 { 1.2}
 function balanceada(exp: string): boolean;
+var
+  pila: TPila;
+  i: Integer;
 begin
-    WriteLn('Implementa la función balanceada');
-    balanceada := false;
+    inicializar(pila);
+    for i:= 1 to Length(exp) do
+        if exp[i] = '(' then
+           apilar(pila, exp[i])
+        else if exp[i] = ')' then
+           if not esVacia(pila) then
+              desapilar(pila)
+           else
+             begin
+               balanceada := False;
+               apilar(pila, exp[i]);
+             end;
+    balanceada :=  esVacia(pila);
 end;
 
 
 { 1.3}
 function balanceadaCorchetes(exp: string): boolean;
+var
+  pila: TPila;
+  i: Integer;
 begin
-    WriteLn('Implementa la función balanceadaCorchetes');
-    balanceadaCorchetes := false;
+    inicializar(pila);
+    for i:= 1 to Length(exp) do
+        begin
+          if (exp[i] = '(') or (exp[i] = '[') then
+             apilar(pila, exp[i])
+          else if exp[i] = ')' then
+             if cima(pila) = '(' then
+                desapilar(pila)
+             else
+                 balanceadaCorchetes := False
+          else if exp[i] = ']' then
+             if cima(pila) = '[' then
+                desapilar(pila)
+             else
+                 balanceadaCorchetes := False;
+        end;
+    balanceadaCorchetes := esVacia(pila);
 end;
 
 function showOkWrong(ok: boolean): string;
