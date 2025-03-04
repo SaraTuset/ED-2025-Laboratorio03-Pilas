@@ -6,8 +6,22 @@ uses
 
 { Función para comprobar si una frase es un palíndromo }
 function esPalindromo(frase: string): boolean;
+var
+  p_aux: TPila;
+  i: Integer;
+  al_reves: String;
+
 begin
-    WriteLn('No implementado...');
+    inicializar(p_aux);
+    al_reves := '';
+    for i := 1 to Length(frase) do
+        apilar(p_aux, frase[i]);
+    while not esVacia(p_aux) do
+        begin
+           al_reves += cima(p_aux);
+           desapilar(p_aux);
+        end;
+    esPalindromo := frase = al_reves;
 end;
 
 function showOkWrong(ok: boolean): string;
