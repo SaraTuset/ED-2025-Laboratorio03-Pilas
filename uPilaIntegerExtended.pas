@@ -19,6 +19,7 @@ interface
 
         tPilaEnterosExt = record
             pila: ^tNodo;
+            size: Integer;
         end;
 
 
@@ -72,6 +73,7 @@ implementation
     procedure initialize(var p: tPilaEnterosExt);
     begin
         p.pila := nil; { Inicializa el cima de la pila a nil }
+        p.size:= 0;
     end;
 
     { Devuelve true si la pila esta vacia }
@@ -89,6 +91,7 @@ implementation
         nuevo^.info := x;  { Asigna el valor al nuevo nodo }
         nuevo^.ant := p.pila; { Enlaza el nuevo nodo con la anterior cima }
         p.pila := nuevo;   { Actualiza la cima de la pila }
+        p.size += 1;
     end;
 
     { Elimina el elemento del cima de la pila }
@@ -101,6 +104,7 @@ implementation
             aux := p.pila;      { Guarda la cima de la pila en un nodo auxiliar }
             p.pila := p.pila^.ant; { Actualiza la cima de la pila }
             dispose(aux);        { Libera la memoria del nodo eliminado }
+            p.size -= 1;
         end;
     end;
 
@@ -162,7 +166,7 @@ implementation
     }
     function contarElementos(p: tPilaEnterosExt): integer;
     begin
-        WriteLn('Implementa la función contarElementos');
+        contarElementos := p.size;
     end;
 
     { 
@@ -177,8 +181,16 @@ implementation
             - ultimo([1, 2, 3]) -> 3
     }
     function ultimo(p: tPilaEnterosExt): integer;
+    var
+        conteo: Integer;
     begin
-        WriteLn('Implementa la función ultimo');
+        conteo := 0;
+        while contarElementos(p) > 1 do
+              pop(p);
+        if not isEmpty(p) then
+          conteo := p.pila^.info;
+        ultimo := conteo;
+
     end;
 
     { 
@@ -194,8 +206,23 @@ implementation
             - combinar([1, 2, 3], []) -> [1, 2, 3]
     }
     procedure combinar(var p1, p2: tPilaEnterosExt);
+    var
+        p_aux: tPilaEnterosExt;
+        aux: Integer;
     begin
-        WriteLn('Implementa la función combinar');
+        initialize(p_aux);
+        while not isEmpty(p2) do
+              begin
+                   peek(p2, aux);
+                   push(p_aux, aux);
+                   pop(p2);
+              end;
+        while not isEmpty(p_aux) do
+              begin
+                   peek(p_aux, aux);
+                   push(p1, aux);
+                   pop(p_aux);
+              end;
     end;
 
     { 
@@ -272,8 +299,19 @@ implementation
             - contarApariciones([1, 2, 3, 4, 5, 2], 2) -> 2
     }
     function contarApariciones(var p: tPilaEnterosExt; n: integer): integer;
+    var
+        aux: ^tNodo;
+        count: Integer;
     begin
-        WriteLn('Implementa la función contarApariciones');
+        aux := p.pila;
+        count:= 0;
+        while aux <> nil do
+              begin
+                 if aux^.info = n then
+                 count += 1;
+                 aux := aux^.ant;
+              end;
+        contarApariciones := count;
     end;
 
 end.
